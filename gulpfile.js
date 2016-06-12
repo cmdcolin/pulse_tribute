@@ -5,7 +5,7 @@ var babel = require('gulp-babel');
 
 gulp.task('build', () => {
     gulp.src([
-        '*.js',
+        'index.js',
     ])
     .pipe(babel())
     .pipe(browserify())
@@ -13,7 +13,7 @@ gulp.task('build', () => {
     .pipe(gulp.dest('dist'));
 
     gulp.src([
-        '*.html',
+        '*.html','*.csv'
     ]).pipe(gulp.dest('dist'));
 
     return 1;
@@ -21,14 +21,14 @@ gulp.task('build', () => {
 
 gulp.task('debug', () => {
     gulp.src([
-        'index.js', 'index.html',
+        'index.js'
     ])
     .pipe(babel())
     .pipe(browserify())
     .pipe(gulp.dest('dist'));
 
     gulp.src([
-        '*.html',
+        '*.html','*.csv'
     ]).pipe(gulp.dest('dist'));
 });
 
