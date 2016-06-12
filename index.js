@@ -9,28 +9,18 @@ function svgr(id, w, h) {
         .attr('xmlns', 'http://www.w3.org/2000/svg');
 }
 
-function plotData(data, id, var1, var2, name1, name2, w, h) {
+function plotData(data, id, w, h) {
     var svg = svgr(id, w, h);
     var x;
     var y;
 
-    x = d3.scale.linear().range([0, w]).domain(d3.extent(data, (d) => {
-        return d[var1];
-    }));
-
-
-    y = d3.scale.linear().range([h, 0]).domain(d3.extent(data, (d) => {
-        return d[var2];
-    }));
+    x = d3.scale.linear().range([0, w]).domain(d3.extent(data, (d) => d.x1));
+    y = d3.scale.linear().range([h, 0]).domain(d3.extent(data, (d) => d.y1));
 
     var valueline = d3.svg.line()
-        .interpolate('cardinal')
-        .y((d) => {
-            return y(d[var2]);
-        })
-        .x((d) => {
-            return x(d[var1]) + 100;
-        });
+        .interpolate('linear')
+        .y((d) =>  y(d.y1))
+        .x((d) =>  x(d.x1));
 
     var path = svg.append('path')
         .attr('d', valueline(data))
@@ -50,15 +40,15 @@ function plotData(data, id, var1, var2, name1, name2, w, h) {
 }
 
 function setupGraph(id, w, h) {
-    d3.csv('data.csv', (error, data) => {
-        if (error) {
-            console.error(error);
-            return;
-        }
+    d3.csv('data.csv', function(d) {
+        return {
+            x1: +d.x1,
+            y1: +d.y1
+        };
+    }, function(error, data) {
         console.log(data);
-
         plotData(data, id, w, h);
     });
 }
 
-window.setupGraph = setupGraph;
+setupGraph("#arbitrary",1000,600);
