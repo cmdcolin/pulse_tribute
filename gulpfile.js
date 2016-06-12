@@ -7,7 +7,7 @@ gulp.task('build', () => {
     gulp.src([
         'index.js',
     ])
-    .pipe(babel())
+    .pipe(babel({presets: ['es2015']}))
     .pipe(browserify())
     .pipe(uglify())
     .pipe(gulp.dest('dist'));

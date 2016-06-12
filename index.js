@@ -24,8 +24,7 @@ function plotData(data, id, w, h) {
 
     var path = svg.append('path')
         .attr('d', valueline(data))
-        .attr('stroke', 'steelblue')
-        .attr('stroke-width', '2')
+        .attr('stroke-width', '4')
         .attr('fill', 'none');
 
 
@@ -33,6 +32,7 @@ function plotData(data, id, w, h) {
     path
         .attr('stroke-dasharray', `${totalLength} ${totalLength}`)
         .attr('stroke-dashoffset', totalLength)
+        .attr('stroke', function(d) { console.log(d); return 'hsl(70,50%,50%)'; })
         .transition()
         .duration(2000)
         .ease('linear')
@@ -46,7 +46,6 @@ function setupGraph(id, w, h) {
             y1: +d.y1
         };
     }, function(error, data) {
-        console.log(data);
         plotData(data, id, w, h);
     });
 }
