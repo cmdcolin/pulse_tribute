@@ -36,10 +36,10 @@ gulp.task('default', ['build']);
 gulp.task('devmode', ['debug']);
 
 gulp.task('watch', () => {
-    gulp.watch(['data.csv','index.js'], ['default']);
+    gulp.watch(['*.csv','index.js','index.html'], ['default']);
 });
 
 gulp.task('watchdev', () => {
-    gulp.watch(['data.csv','index.js'], ['devmode']);
+    gulp.watch(['*.csv','index.js','index.html'], ['devmode']);
 });
 

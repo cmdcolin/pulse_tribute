@@ -10,17 +10,53 @@
 
 body {
   margin: auto;
-  width: 960px;
+  width: 1000px;
 }
+
 .line {
   fill: none;
   stroke: url(#temperature-gradient);
   stroke-width: 1.5px;
 }
+.crop {
+  width: 1000px;
+  height: 600px;
+  overflow: hidden;
+  position: absolute;
+  z-index: -100;
+  top: 0;
+}
+#pic {
+  width: 1000px;
+}
 </style>
 </head>
 <body>
-<div id="arbitrary"></div>
+<div id="arbitrary">
+<div class="crop">
+<img id="pic"></img>
+</div>
+</div>
+<input type="file" id="formfile"></input>
+<script>
+document.getElementById('formfile').onchange = function (evt) {
+    var tgt = evt.target || window.event.srcElement;
+    var files = tgt.files;
+
+    // FileReader support
+    if (FileReader && files && files.length) {
+        var fr = new FileReader();
+        fr.onload = function () {
+            var img = document.getElementById('pic');
+            img.setAttribute('src', fr.result);
+        }
+        fr.readAsDataURL(files[0]);
+    }
+    else {
+        alert('Not a supported browser');
+    }
+}
+</script>
 <a href="https://github.com/cmdcolin/pulse_tribute"><i class="em em-heart"></i></a>
 </body>
 </html>
