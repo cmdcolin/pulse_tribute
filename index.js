@@ -35,21 +35,18 @@ function plotData(data, id, w, h) {
       ]).enter().append("stop")
           .attr("offset", (d) => d.offset)
           .attr("stop-color", (d) => d.color);
-    svg.append("path")
+    var path = svg.append("path")
         .datum(data)
         .style("stroke-width", 5)
         .attr("class", "line")
         .attr("d", valueline)
 
-//    path.attr('stroke-dasharray', `${path.node().getTotalLength()} ${path.node().getTotalLength()}`)
-//        .attr('stroke-dashoffset', path.node().getTotalLength())
-//        .transition()
-//        .duration(2000)
-//        .ease('linear')
-//        .attr('stroke', function(da) { console.log('hello2',da); return 'hsl(70,50%,50%)'; })
-//        .attr('stroke-dashoffset', 0);
-//    path2 = svg.selectAll('path');
-//    path2.attr('stroke', function(r) { console.log(r); return 'black'; });
+    path.attr('stroke-dasharray', `${path.node().getTotalLength()} ${path.node().getTotalLength()}`)
+        .attr('stroke-dashoffset', path.node().getTotalLength())
+        .transition()
+        .duration(2000)
+        .ease('linear')
+        .attr('stroke-dashoffset', 0);
 }
 
 function setupGraph(id, w, h) {
