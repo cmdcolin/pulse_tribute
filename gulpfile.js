@@ -36,10 +36,10 @@ gulp.task('default', ['build']);
 gulp.task('devmode', ['debug']);
 
 gulp.task('watch', () => {
-    gulp.watch('index.js', ['default']);
+    gulp.watch(['data.csv','index.js'], ['default']);
 });
 
 gulp.task('watchdev', () => {
-    gulp.watch('index.js', ['devmode']);
+    gulp.watch(['data.csv','index.js'], ['devmode']);
 });
 

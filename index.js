@@ -16,30 +16,34 @@ function plotData(data, id, w, h) {
 
     var valueline = d3.svg.line()
         .interpolate('linear')
-        .y((d) =>  y(d.y1))
-        .x((d) =>  x(d.x1));
+        .y((d) => y(d.y1))
+        .x((d) => x(d.x1));
 
-    svg.append("linearGradient")
-        .attr("id", "temperature-gradient")
-        .attr("gradientUnits", "userSpaceOnUse")
-        .attr("x1", 0).attr("y1", y(300))
-        .attr("x2", 0).attr("y2", y(400))
-    .selectAll("stop")
+    svg
+        .append('linearGradient')
+        .attr('id', 'temperature-gradient')
+        .attr('gradientUnits', 'userSpaceOnUse')
+        .attr('x1', 0).attr('y1', y(300))
+        .attr('x2', 0).attr('y2', y(400))
+    .selectAll('stop')
       .data([
-        {offset: "0%", color: "red"},
-        {offset: "20%", color: "orange"},
-        {offset: "40%", color: "yellow"},
-        {offset: "60%", color: "green"},
-        {offset: "80%", color: "blue"},
-        {offset: "100%", color: "purple"}
-      ]).enter().append("stop")
-          .attr("offset", (d) => d.offset)
-          .attr("stop-color", (d) => d.color);
-    var path = svg.append("path")
+        { offset: '0%', color: 'red' },
+        { offset: '20%', color: 'orange' },
+        { offset: '40%', color: 'yellow' },
+        { offset: '60%', color: 'green' },
+        { offset: '80%', color: 'blue' },
+        { offset: '100%', color: 'purple' },
+      ])
+      .enter().append('stop')
+      .attr('offset', (d) => d.offset)
+      .attr('stop-color', (d) => d.color);
+    var path = svg.append('path')
         .datum(data)
-        .style("stroke-width", 5)
-        .attr("class", "line")
-        .attr("d", valueline)
+        .style('stroke-width', 8)
+        .style('stroke-linecap', 'butt')
+        .style('stroke-linejoin', 'round')
+        .attr('class', 'line')
+        .attr('d', valueline);
 
     path.attr('stroke-dasharray', `${path.node().getTotalLength()} ${path.node().getTotalLength()}`)
         .attr('stroke-dashoffset', path.node().getTotalLength())
@@ -50,14 +54,14 @@ function plotData(data, id, w, h) {
 }
 
 function setupGraph(id, w, h) {
-    d3.csv('data.csv', function(d) {
+    d3.csv('data.csv', function (d) {
         return {
             x1: +d.x1,
-            y1: +d.y1
+            y1: +d.y1,
         };
-    }, function(error, data) {
+    }, function (error, data) {
         plotData(data, id, w, h);
     });
 }
 
-setupGraph("#arbitrary",1000,600);
+setupGraph('#arbitrary', 1000, 600);
