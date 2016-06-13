@@ -12,7 +12,7 @@ function svgr(id, w, h) {
 function plotData(data, id, w, h) {
     var svg = svgr(id, w, h);
     var x = d3.scale.linear().range([0, w]).domain(d3.extent(data, (d) => d.x1));
-    var y = d3.scale.linear().range([h, 0]).domain(d3.extent(data, (d) => d.y1));
+    var y = d3.scale.linear().range([h-100, 100]).domain(d3.extent(data, (d) => d.y1));
 
     var valueline = d3.svg.line()
         .interpolate('linear')
