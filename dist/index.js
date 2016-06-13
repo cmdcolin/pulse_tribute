@@ -12,23 +12,9 @@ function plotData(data, id, w, h) {
 
     var valueline = d3.svg.line().interpolate('linear').y(d => y(d.y1)).x(d => x(d.x1));
 
-    svg.selectAll("path").data(data).enter().append('path').attr('d', valueline(data)).style('fill', function (d) {
-        console.log(d);return '#fff';
-    }).attr('stroke-width', '4').style('stroke', function (d) {
-        return 'blue';
-    }).selectAll("stop").data([{ offset: "0%", color: "steelblue" }, { offset: "50%", color: "gray" }, { offset: "100%", color: "red" }]).enter().append("stop").attr("offset", function (d) {
-        console.log('h2', d);return d.offset;
-    }).attr("stop-color", function (d) {
-        return d.color;
-    });
+    svg.append("linearGradient").attr("id", "temperature-gradient").attr("gradientUnits", "userSpaceOnUse").attr("x1", 0).attr("y1", y(300)).attr("x2", 0).attr("y2", y(400)).selectAll("stop").data([{ offset: "0%", color: "red" }, { offset: "20%", color: "orange" }, { offset: "40%", color: "yellow" }, { offset: "60%", color: "green" }, { offset: "80%", color: "blue" }, { offset: "100%", color: "purple" }]).enter().append("stop").attr("offset", d => d.offset).attr("stop-color", d => d.color);
+    svg.append("path").datum(data).style("stroke-width", 5).attr("class", "line").attr("d", valueline);
 
-    //
-    //    var path = svg.append('path')
-    //        .data(data)
-    //        .attr('d', valueline(data))
-    //        .attr('stroke-width', '4')
-    //        .attr('fill', 'none');
-    //
     //    path.attr('stroke-dasharray', `${path.node().getTotalLength()} ${path.node().getTotalLength()}`)
     //        .attr('stroke-dashoffset', path.node().getTotalLength())
     //        .transition()
