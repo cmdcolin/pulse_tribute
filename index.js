@@ -11,11 +11,16 @@ function svgr(id, w, h) {
 
 function plotData(data, id, w, h) {
     var svg = svgr(id, w, h);
-    var x = d3.scale.linear().range([0, w]).domain(d3.extent(data, (d) => d.x1));
-    var y = d3.scale.linear().range([h-100, 100]).domain(d3.extent(data, (d) => d.y1));
+    var path;
 
-    var valueline = d3.svg.line()
-        .interpolate('linear')
+    var x = d3.scaleLinear()
+        .range([0, w])
+        .domain(d3.extent(data, (d) => d.x1));
+    var y = d3.scaleLinear()
+        .range([h - 100, 100])
+        .domain(d3.extent(data, (d) => d.y1));
+
+    var valueline = d3.line()
         .y((d) => y(d.y1))
         .x((d) => x(d.x1));
 
@@ -23,8 +28,10 @@ function plotData(data, id, w, h) {
         .append('linearGradient')
         .attr('id', 'temperature-gradient')
         .attr('gradientUnits', 'userSpaceOnUse')
-        .attr('x1', 0).attr('y1', y(300))
-        .attr('x2', 0).attr('y2', y(400))
+        .attr('x1', 0)
+        .attr('y1', y(300))
+        .attr('x2', 0)
+        .attr('y2', y(400))
     .selectAll('stop')
       .data([
         { offset: '0%', color: 'red' },
@@ -34,10 +41,11 @@ function plotData(data, id, w, h) {
         { offset: '80%', color: 'blue' },
         { offset: '100%', color: 'purple' },
       ])
-      .enter().append('stop')
+      .enter()
+      .append('stop')
       .attr('offset', (d) => d.offset)
       .attr('stop-color', (d) => d.color);
-    var path = svg.append('path')
+    path = svg.append('path')
         .datum(data)
         .style('stroke-width', 8)
         .style('stroke-linecap', 'butt')
@@ -49,19 +57,19 @@ function plotData(data, id, w, h) {
         .attr('stroke-dashoffset', path.node().getTotalLength())
         .transition()
         .duration(2000)
-        .ease('linear')
         .attr('stroke-dashoffset', 0);
 }
 
 function setupGraph(id, w, h) {
-    d3.csv('data.csv', function (d) {
-        return {
-            x1: +d.x1,
-            y1: +d.y1,
-        };
-    }, function (error, data) {
-        plotData(data, id, w, h);
-    });
+    d3.csv('data.csv',
+            (d) => {
+                return {
+                    x1: +d.x1,
+                    y1: +d.y1,
+                };
+            },
+            (error, data) => plotData(data, id, w, h)
+    );
 }
 
 setupGraph('#arbitrary', 1000, 600);
