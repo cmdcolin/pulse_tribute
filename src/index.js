@@ -1,5 +1,3 @@
-var d3 = require('d3');
-
 
 function plotData(data, id, w, h) {
     var svg = d3.select(id)
@@ -57,7 +55,7 @@ function plotData(data, id, w, h) {
         .attr('stroke-dashoffset', 0);
 }
 
-async function setupGraph(id, w, h) {
+function setupGraph(id, w, h) {
     d3.dsv(',', 'data.csv', (d) => {
         return {
             x1: +d.x1,
