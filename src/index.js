@@ -1,16 +1,13 @@
 var d3 = require('d3');
 
-function svgr(id, w, h) {
-    return d3.select(id)
+
+function plotData(data, id, w, h) {
+    var svg = d3.select(id)
         .append('svg')
         .attr('width', w)
         .attr('height', h)
         .attr('id', 'visualization')
         .attr('xmlns', 'http://www.w3.org/2000/svg');
-}
-
-function plotData(data, id, w, h) {
-    var svg = svgr(id, w, h);
     var path;
 
     var x = d3.scaleLinear()
@@ -60,16 +57,16 @@ function plotData(data, id, w, h) {
         .attr('stroke-dashoffset', 0);
 }
 
-function setupGraph(id, w, h) {
-    d3.csv('data.csv',
-            (d) => {
-                return {
-                    x1: +d.x1,
-                    y1: +d.y1,
-                };
-            },
-            (error, data) => plotData(data, id, w, h)
-    );
+async function setupGraph(id, w, h) {
+	d3.dsv(",", "data.csv", function(d) {
+	  return {
+		x1: +d.x1,
+		y1: +d.y1
+	  };
+	}).then(function(data) {
+	  console.log(data);
+      plotData(data, id, w, h)
+	});
 }
 
 setupGraph('#arbitrary', 1000, 600);
