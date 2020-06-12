@@ -16,14 +16,12 @@ function plotData(data, id, width, height) {
     .attr("height", height)
     .attr("id", "visualization")
     .attr("xmlns", "http://www.w3.org/2000/svg");
-  console.log("here", id, width, height);
   var path;
 
   var x = scaleLinear()
     .range([0, width])
     .domain(extent(data, d => d.x1));
 
-  console.log(extent(data), data);
   var y = scaleLinear()
     .range([height - 100, 100])
     .domain(extent(data, d => d.y1));
@@ -61,7 +59,6 @@ function plotData(data, id, width, height) {
     .style("stroke-linejoin", "round")
     .attr("class", "line")
     .attr("d", valueline);
-  console.log(path);
 
   path
     .attr(
