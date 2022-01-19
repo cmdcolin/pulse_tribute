@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 
 import { FaHeart } from "react-icons/fa";
@@ -71,7 +71,22 @@ function plotData(data, id, width, height) {
     .attr("stroke-dashoffset", 0);
 }
 
+function readFileAsync(file) {
+  return new Promise((resolve, reject) => {
+    let reader = new FileReader();
+
+    reader.onload = () => {
+      resolve(reader.result);
+    };
+
+    reader.onerror = reject;
+
+    reader.readAsDataURL(file);
+  });
+}
+
 function App() {
+  const [img, setImg] = useState();
   useEffect(() => {
     async function setup() {
       const result = await fetch("data.csv");
@@ -88,11 +103,32 @@ function App() {
   }, []);
   return (
     <div className="App">
-      <div id="arbitrary" />
-
-      <a href="https://github.com/cmdcolin/pulse_tribute">
-        <FaHeart />
-      </a>
+      <img
+        alt="background"
+        style={{ position: "absolute", top: 0, left: 0, width: "100%" }}
+        src={
+          img ||
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Night_Panorama_Miami_Florida_5462.jpg/2560px-Night_Panorama_Miami_Florida_5462.jpg"
+        }
+      />
+      <div
+        style={{ position: "absolute", top: 0, left: 0, width: "100%" }}
+        id="arbitrary"
+      />
+      <div style={{ position: "absolute", top: 0, left: 0, width: "100%" }}>
+        <a href="https://github.com/cmdcolin/pulse_tribute">
+          <FaHeart />
+        </a>
+        <input
+          type="file"
+          onChange={async e => {
+            const f = e.target.files[0];
+            const img = await readFileAsync(f);
+            console.log({ img });
+            setImg(img);
+          }}
+        />
+      </div>
     </div>
   );
 }
